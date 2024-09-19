@@ -1,14 +1,39 @@
 /* style.css */
-.certificate-container {
+body {
+    font-family: 'Georgia', serif;
+    background-color: #f0f0f0;
+  }
+  
+  .container {
     text-align: center;
     margin: 50px auto;
-}
-
-#certificate {
+    max-width: 800px;
+  }
+  
+  #certificate {
     background-color: #fff;
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-/* Adicione mais estilos para personalizar o certificado */
+    padding: 30px;
+    border: 2px solid #007bff; /* Azul claro */
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.2);
+    font-size: 18px;
+  }
+  
+  .logo {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .signature {
+    text-align: right;
+    margin-top: 50px;
+  }
+  
+  @media (max-width: 768px) {
+    .container {
+      width: 90%;
+    }
+    #certificate {
+      padding: 20px;
+      font-size: 16px;
+    }
+  }
