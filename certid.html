@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Certificado</title>
+  <style>
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      background-color: #f9f9f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 20px;
+    }
+    .certificate-container {
+      border: 10px solid #d4af37;
+      padding: 20px;
+      width: 80%;
+      max-width: 800px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-top: 20px;
+    }
+    .certificate-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .certificate-header h1 {
+      font-size: 2.5em;
+      margin: 0;
+    }
+    .certificate-body {
+      text-align: center;
+    }
+    .certificate-body p {
+      font-size: 1.2em;
+      margin: 10px 0;
+    }
+    .certificate-footer {
+      text-align: center;
+      margin-top: 30px;
+    }
+    .certificate-footer p {
+      font-size: 1em;
+      margin: 5px 0;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 80%;
+      max-width: 800px;
+      margin-top: 20px;
+    }
+    label, input, button {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <form id="certificate-form">
+    <label for="name">Nome:</label>
+    <input type="text" id="name" name="name" required>
+    <label for="course">Curso:</label>
+    <input type="text" id="course" name="course" required>
+    <label for="start-date">Data de Início:</label>
+    <input type="date" id="start-date" name="start-date" required>
+    <label for="end-date">Data de Término:</label>
+    <input type="date" id="end-date" name="end-date" required>
+    <label for="hours">Carga Horária:</label>
+    <input type="number" id="hours" name="hours" required>
+    <label for="date">Data de Emissão:</label>
+    <input type="date" id="date" name="date" required>
+    <button type="submit">Gerar Certificado</button>
+  </form>
+
+  <div class="certificate-container" id="certificate" style="display: none;">
+    <div class="certificate-header">
+      <h1>Certificado de Conclusão</h1>
+    </div>
+    <div class="certificate-body">
+      <p>Este certificado é concedido a:</p>
+      <p><strong id="name-display">Nome do Aluno</strong></p>
+      <p>Por concluir o curso de <strong id="course-display">Nome do Curso</strong></p>
+      <p>Período: de <strong id="start-date-display">Data de Início</strong> a <strong id="end-date-display">Data de Término</strong></p>
+      <p>Carga Horária: <strong id="hours-display">Horas</strong> horas</p>
+      <p>Data de Emissão: <strong id="date-display">Data de Emissão</strong></p>
+    </div>
+    <div class="certificate-footer">
+      <p>__________________________</p>
+      <p>Assinatura</p>
+    </div>
+  </div>
+
+  <button id="generate-pdf" style="display: none;">Gerar PDF</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+  <script>
+    const form = document.getElementById('certificate-form');
+    const certificate = document.getElementById('certificate');
+    const generatePdfButton = document.getElementById('generate-pdf');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      // Coletar dados do formulário e realizar validações (optional)
+      const name = document.getElementById('name').value.trim(); // Trim removes leading/trailing whitespace
+      const course = document.getElementById('course').value.trim();
+      const date = document.getElementById('date').value;
+      const startDate = new Date(document.getElementById('start-date').value);
+      const endDate = new Date(document.getElementById('end-date').value);
+      const hours = document.getElementById('hours').value;
+
+      // Simple validation (optional, replace with more robust validation)
+      if (!name || !course || !date || !startDate || !endDate || !hours) {
+        alert('Por favor, preencha todos os campos.');
+        return;
+      }
+
+      // Ajustar a data de emissão para garantir que seja interpretada corretamente
+      const emissionDate = new Date(date);
+      emissionDate.setDate(emissionDate.getDate() + 1); // Corrigir a data adicionando um dia
+
+      // Ajustar as datas de início e término para garantir que sejam interpretadas corretamente
+      startDate.setDate(startDate.getDate() + 1);
+      endDate.setDate(endDate.getDate() + 1);
+
+      // Preencher os dados no certificado
+      document.getElementById('name-display').textContent = name;
+      document.getElementById('course-display').textContent = course;
+      document.getElementById('start-date-display').textContent = startDate.toLocaleDateString('pt-BR');
+      document.getElementById('end-date-display').textContent = endDate.toLocaleDateString('pt-BR');
+      document.getElementById('hours-display').textContent = hours;
+      document.getElementById('date-display').textContent = emissionDate.toLocaleDateString('pt-BR');
+
+      certificate.style.display = 'block';
+      generatePdfButton.style.display = 'block';
+    });
+
+    generatePdfButton.addEventListener('click', () => {
+      html2canvas(certificate).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF();
+        pdf.addImage(imgData, 'PNG', 10, 10);
+        pdf.save('certificado.pdf');
+      });
+    });
+  </script>
+</body>
+</html>
