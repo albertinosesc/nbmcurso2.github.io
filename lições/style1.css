@@ -1,0 +1,14 @@
+/* style.css */
+.certificate-container {
+    text-align: center;
+    margin: 50px auto;
+}
+
+#certificate {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Adicione mais estilos para personalizar o certificado */
