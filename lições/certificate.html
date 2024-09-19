@@ -1,27 +1,33 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerador de Certificados</title>
-    <link rel="stylesheet" href="style1.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Certificados</title>
+  <link rel="stylesheet" href="style1.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
-    <div class="certificate-container">
-        <h1>Gerador de Certificados</h1>
-        <form id="certificate-form">
-            <label for="name">Nome Completo:</label>
-            <input type="text" id="name" required>
-            <label for="cpf">CPF:</label>
-            <input type="text" id="cpf" required>
-            <label for="course">Curso:</label>
-            <input type="text" id="course" required>
-            <button type="submit">Gerar Certificado</button>
-        </form>
-        <div id="certificate" style="display: none;">
-            </div>
-    </div>
-
-    <script src="script1.js"></script>
+  <div class="container">
+    <h1>Gerador de Certificados</h1>
+    <form id="certificate-form">
+      <label for="name">Nome Completo:</label>
+      <input type="text" id="name" required>
+      <label for="course">Curso:</label>
+      <input type="text" id="course" required>
+      <label for="date">Data de Emissão:</label>
+      <input type="date" id="date" required>
+      <label for="start-date">Data de Início:</label>
+      <input type="date" id="start-date" required>
+      <label for="end-date">Data de Término:</label>
+      <input type="date" id="end-date" required>
+      <label for="hours">Carga Horária (horas):</label>
+      <input type="number" id="hours" required>
+      <button type="submit">Gerar Certificado</button>
+      <button type="button" onclick="generatePDF()">Gerar PDF</button>
+    </form>
+    <div id="certificate" style="display: none;"></div>
+  </div>
+  <script src="script1.js"></script>
 </body>
 </html>
